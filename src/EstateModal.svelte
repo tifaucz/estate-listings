@@ -28,8 +28,14 @@
     </div>
     <div class="flex justify-between">
       <div class="w-3/5">
-        <h1 class="text-2xl font-bold">{listing.title}</h1>
-        <div class="text-3xl font-bold text-blue-600">${listing.price}</div>
+        <div class="flex justify-between items-center m-4 text-2xl font-bold">
+          <h1>{listing.title}</h1>
+          <div class="text-blue-600">${listing.price}</div>
+        </div>
+        <div class="flex justify-between items-center m-2 text-lg text-gray-600">
+          <div><strong>Location:</strong> {listing.location}</div>
+          <div><strong>Date Listed:</strong> {listing.dateListed}</div>
+        </div>
         <div class="h-96 w-full bg-blue-600" style="background-image: url({listing.picURL}); background-size: cover;"></div>
         <div class="flex items-center justify-between bg-gray-200 p-4 mb-4">
           <div class="text-center">
