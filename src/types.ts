@@ -14,3 +14,9 @@ export type Listing = {
   yearBuilt: number;
 };
   
+export type ContactMessage = {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  comments: string;
+};

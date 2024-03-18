@@ -3,7 +3,6 @@
 	import type { Listing } from './types';
 	import { onMount } from 'svelte';
 	import EstateFilter from './EstateFilter.svelte';
-
 	import { listings, filteredListings, savedListings } from './store';
 
 	onMount(async () => {
@@ -26,42 +25,33 @@
 		}));
 		listings.set(mappedListings);
     	filteredListings.set(mappedListings);
-
-		console.log("mount listings", listings);
 	});
 
-	console.log("listings", $listings);
-	console.log("filteredListings", $filteredListings);
+    function onSearch(event: CustomEvent<{ bedrooms: number; bathrooms: number; parking: number; priceRange: number, showWishlist: boolean }>)
+	{
+		const { bedrooms, bathrooms, parking, priceRange, showWishlist } = event.detail;
+		const estates = showWishlist ? $savedListings : $listings;
 
-    function onSearch(event: CustomEvent<{ bedrooms: number; bathrooms: number; parking: number; priceRange: number, showWishlist: boolean }>) {
-        if (event.detail.showWishlist) {
-            filteredListings.set($savedListings);
-        } else {
-            const { bedrooms, bathrooms, parking, priceRange } = event.detail;
-            const filtered = $listings.filter(listing => {
-                return (
-                    (bedrooms === -1 || listing.bedrooms === bedrooms) &&
-                    (bathrooms === -1 || listing.bathrooms === bathrooms) &&
-                    (parking === -1 || listing.parking === parking) &&
-                    (priceRange === -1 || listing.price <= priceRange)
-                );
-            });
-            filteredListings.set(filtered);
-        }
-        console.log("filteredListings", $filteredListings);
+		const filtered = estates.filter(listing => {
+			return (
+				(bedrooms === -1 || listing.bedrooms === bedrooms) &&
+				(bathrooms === -1 || listing.bathrooms === bathrooms) &&
+				(parking === -1 || listing.parking === parking) &&
+				(priceRange === -1 || listing.price <= priceRange)
+			);
+		});
+		filteredListings.set(filtered);
     }
-  </script>
-  
-  <main class="p-4 mx-auto text-center w-full">
-	<EstateFilter on:search={onSearch} />
-	{#if $listings.length > 0}
-		<EstateListing />
-	{:else}
-		<p>Loading listings...</p>
-	{/if}
-  </main>
-  
-  <style lang="postcss">
+</script>
 
-  </style>
-  
+<main class="p-4 mx-auto text-center w-full">
+<EstateFilter on:search={onSearch} />
+{#if $listings.length > 0}
+	<EstateListing />
+{:else}
+	<p>Loading listings...</p>
+{/if}
+</main>
+
+<style lang="postcss">
+</style>
