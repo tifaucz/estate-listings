@@ -3,14 +3,13 @@
 	import type { Listing } from './types';
 	import { onMount } from 'svelte';
 	import EstateFilter from './EstateFilter.svelte';
-  
-	let listings: Listing[] = [];
-	let filteredListings: Listing[] = listings;
+
+	import { listings, filteredListings, savedListings } from './store';
 
 	onMount(async () => {
 		const response = await fetch('../public/listings.json');
 		const data: any[] = await response.json();
-		listings = data.map((item) => ({
+		const mappedListings: Listing[] = data.map((item) => ({
 			id: item.Id || 0,
 			dateListed: item.DateListed || '',
 			title: item.Title || '',
@@ -25,32 +24,38 @@
 			parking: item.Parking || 0,
 			yearBuilt: item.YearBuilt || 0,
 		}));
-		filteredListings = listings;
+		listings.set(mappedListings);
+    	filteredListings.set(mappedListings);
 
 		console.log("mount listings", listings);
 	});
 
-	console.log("listings", listings);
-	console.log("filteredListings", filteredListings);
+	console.log("listings", $listings);
+	console.log("filteredListings", $filteredListings);
 
-	function onSearch(event: CustomEvent<{ bedrooms: number; bathrooms: number; parking: number; priceRange: number }>) {
-		const { bedrooms, bathrooms, parking, priceRange } = event.detail;
-		filteredListings = listings.filter(listing => {
-			return (
-				(bedrooms === -1 || listing.bedrooms === bedrooms) &&
-				(bathrooms === -1 || listing.bathrooms === bathrooms) &&
-				(parking === -1 || listing.parking === parking) &&
-				(priceRange === -1 || listing.price <= priceRange)
-			);
-		});
-		console.log("filteredListings", filteredListings);
-	}
+    function onSearch(event: CustomEvent<{ bedrooms: number; bathrooms: number; parking: number; priceRange: number, showWishlist: boolean }>) {
+        if (event.detail.showWishlist) {
+            filteredListings.set($savedListings);
+        } else {
+            const { bedrooms, bathrooms, parking, priceRange } = event.detail;
+            const filtered = $listings.filter(listing => {
+                return (
+                    (bedrooms === -1 || listing.bedrooms === bedrooms) &&
+                    (bathrooms === -1 || listing.bathrooms === bathrooms) &&
+                    (parking === -1 || listing.parking === parking) &&
+                    (priceRange === -1 || listing.price <= priceRange)
+                );
+            });
+            filteredListings.set(filtered);
+        }
+        console.log("filteredListings", $filteredListings);
+    }
   </script>
   
   <main class="p-4 mx-auto text-center w-full">
-	<EstateFilter on:search={onSearch} listings={listings}/>
-	{#if listings.length > 0}
-		<EstateListing listings={filteredListings} />
+	<EstateFilter on:search={onSearch} />
+	{#if $listings.length > 0}
+		<EstateListing />
 	{:else}
 		<p>Loading listings...</p>
 	{/if}
