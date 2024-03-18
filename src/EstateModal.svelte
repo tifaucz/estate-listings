@@ -21,6 +21,12 @@
     savedListings.set(currentListings);
   }
 
+  function formatDate(dateString: string): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', options);
+  }
+
 </script>
 {#if isOpen}
   <dialog class="z-20 max-w-6xl bg-white text-black w-fit h-fit mx-auto my-8 p-4 flex justify-center items-start shadow-lg">
@@ -34,7 +40,7 @@
         </div>
         <div class="flex justify-between items-center m-2 text-lg text-gray-600">
           <div><strong>Location:</strong> {listing.location}</div>
-          <div><strong>Date Listed:</strong> {listing.dateListed}</div>
+          <div><strong>Date Listed:</strong> {formatDate(listing.dateListed)}</div>
         </div>
         <div class="h-96 w-full bg-blue-600" style="background-image: url({listing.picURL}); background-size: cover;"></div>
         <div class="flex items-center justify-between bg-gray-200 p-4 mb-4">
