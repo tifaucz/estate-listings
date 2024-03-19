@@ -1,31 +1,25 @@
-> Default dev port is now `5173`, it now uses Vite under the hood.
-# Svelte v4 + TS + Tailwind 3.3 app
+# Estate Listing Exercise Frontend App | Svelte | TypeScript | Tailwind
 
-**There is a Svelte 5 starter in the `svelte5` branch.**
+![image](https://github.com/tifaucz/estate-listings/assets/15833226/04aa4bc7-5899-4377-b496-cb47f25421da)
 
-**NOTE** Dark mode stopped working with the Rollup based template, and since it isn't supported anymore, I've switched this to the Vite based template.
+## Features
+- Lists Estates from a mock api json file
+- Filter by Price, Bedrooms, Bathrooms and Parking
+- Save/remove desired Estates to a Wishlist
+- Mock contact form with input validators
 
-This is a project template for [Svelte](https://svelte.dev) (v4) apps. It lives at https://github.com/colinbate/svelte-ts-tailwind-template and is based on the official Svelte template via `create-vite` with TypeScript selected and Tailwind CSS added via `svelte-add`. The dependencies were then updated to latest (as of the latest commit). It is getting pretty easy to get this stack working without this template, but may save you a bit of time.
-
-> Note that this isn't a SvelteKit app, this is a vanilla Svelte template with the above mentioned technologies pre-installed. Now that SvelteKit is past 1.0, it is an option you may want to consider for any larger apps.
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit colinbate/svelte-ts-tailwind-template svelte-app
-cd svelte-app
-```
-
-Alternatively, if you are currently on GitHub, you can click the "Use this template" button at the top of this page.
-
-*Note that you will need to have [Node.js](https://nodejs.org) >=16 installed.*
+## Architecture
+- Using Svelte for it's performance and ease of use. 
+- TS for it's proven improvement of DX, specially considering maintainability.
+- Tailwind for it's simplicity and organization when styling components.
+- Other than that, a very simple structure due to the project's limited scope.
 
 ## Get started
 
 Install the dependencies...
 
 ```bash
-cd svelte-app
+cd estate-listings
 npm install
 ```
 
